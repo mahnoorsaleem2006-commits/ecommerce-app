@@ -88,6 +88,3 @@ Ecommerce Web Design — Figma Community Template
 ## Author
 
 Built by: **Mahnoor Saleem**  
-GitHub: https://github.com/mahnoorsaleem2006-commits/ecommerce-app  
-Institute: IT-Simplera Institute  
-Instructor: Nisar Ali (Frontend Web Developer)
