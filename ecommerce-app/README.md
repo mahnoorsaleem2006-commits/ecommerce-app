@@ -51,7 +51,7 @@ src/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/ecommerce-app.git
+git clone https://github.com/mahnoorsaleem2006-commits/ecommerce-app.git
 cd ecommerce-app
 
 # 2. Install dependencies
@@ -85,6 +85,9 @@ Ecommerce Web Design — Figma Community Template
 
 ## Author
 
-Built by: [Your Name]  
+## Author
+
+Built by: **Mahnoor Saleem**  
+GitHub: https://github.com/mahnoorsaleem2006-commits/ecommerce-app  
 Institute: IT-Simplera Institute  
 Instructor: Nisar Ali (Frontend Web Developer)
