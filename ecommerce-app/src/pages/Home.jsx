@@ -1,16 +1,23 @@
 import { Link } from 'react-router-dom';
-import { products, categories } from '../data/products';
+import products from '../data/products.json';
 import ProductCard from '../components/ui/ProductCard';
 import Button from '../components/ui/Button';
 
+// Categories dynamically extract karo
+const categories = ['All', ...new Set(products.map(p => p.category))];
+
+// Featured products
 const featured = products.filter(p => p.badge === 'Best Seller' || p.badge === 'New').slice(0, 4);
 
 const categoryIcons = {
-  Electronics: '💻',
-  Fashion: '👗',
+  'Electronics': '💻',
+  'Fashion': '👗',
   'Home & Garden': '🏠',
-  Books: '📚',
-  Sports: '⚽',
+  'Books': '📚',
+  'Sports': '⚽',
+  'Shoes': '👟',
+  'Clothing': '👕',
+  'Accessories': '🎒'
 };
 
 const bannerSlides = [
@@ -88,7 +95,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Pills */}
+      {/* Category Pills - DYNAMIC from JSON */}
       <section className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
@@ -98,7 +105,7 @@ export default function Home() {
                 to={`/products?category=${cat}`}
                 className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 hover:bg-primary-50 hover:text-primary-700 text-gray-700 rounded-xl text-sm font-medium transition-all whitespace-nowrap border border-gray-200 hover:border-primary-200"
               >
-                <span>{categoryIcons[cat]}</span>
+                <span>{categoryIcons[cat] || '📦'}</span>
                 {cat}
               </Link>
             ))}

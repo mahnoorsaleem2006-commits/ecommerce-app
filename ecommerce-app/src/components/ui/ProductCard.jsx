@@ -12,6 +12,11 @@ export default function ProductCard({ product }) {
     dispatch({ type: 'ADD_ITEM', product });
   };
 
+  const handleImageError = (e) => {
+    console.log('Image failed to load:', product.image);
+    e.target.src = 'https://via.placeholder.com/400x400/2563EB/FFFFFF?text=' + product.name.substring(0, 10);
+  };
+
   return (
     <Link to={`/products/${product.id}`} className="group block">
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-gray-200 h-full flex flex-col">
@@ -21,6 +26,7 @@ export default function ProductCard({ product }) {
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={handleImageError}
           />
           {product.badge && (
             <div className="absolute top-3 left-3">
@@ -47,13 +53,15 @@ export default function ProductCard({ product }) {
           <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-2 leading-snug">
             {product.name}
           </h3>
-          <StarRating rating={product.rating} reviews={product.reviews} />
+          {product.rating && (
+            <StarRating rating={product.rating} reviews={product.reviews} />
+          )}
 
           <div className="mt-auto pt-3 flex items-center justify-between">
             <div>
-              <span className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</span>
+              <span className="text-lg font-bold text-gray-900">RS {product.price.toLocaleString()}</span>
               {product.originalPrice > product.price && (
-                <span className="text-xs text-gray-400 line-through ml-2">${product.originalPrice.toFixed(2)}</span>
+                <span className="text-xs text-gray-400 line-through ml-2">RS {product.originalPrice.toLocaleString()}</span>
               )}
             </div>
             <button

@@ -1,11 +1,21 @@
 import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getProductById, getRelatedProducts } from '../data/products';
+import products from '../data/products.json';
 import { useCart } from '../hooks/useCart';
 import ProductCard from '../components/ui/ProductCard';
 import Button from '../components/ui/Button';
 import StarRating from '../components/ui/StarRating';
 import Badge from '../components/ui/Badge';
+
+const getProductById = (id) => {
+  return products.find(p => p.id === parseInt(id));
+};
+
+const getRelatedProducts = (product) => {
+  return products
+    .filter(p => p.id !== product.id && p.category === product.category)
+    .slice(0, 4);
+};
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -43,7 +53,6 @@ export default function ProductDetail() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
         <Link to="/" className="hover:text-primary-600">Home</Link>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -54,18 +63,16 @@ export default function ProductDetail() {
         <span className="text-gray-900 font-medium line-clamp-1">{product.name}</span>
       </nav>
 
-      {/* Main content */}
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
-        {/* Images */}
         <div className="space-y-3">
           <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
             <img
-              src={product.images[selectedImage] || product.image}
+              src={product.images?.[selectedImage] || product.image}
               alt={product.name}
               className="w-full h-full object-cover"
             />
           </div>
-          {product.images.length > 1 && (
+          {product.images && product.images.length > 1 && (
             <div className="flex gap-3">
               {product.images.map((img, i) => (
                 <button
@@ -80,7 +87,6 @@ export default function ProductDetail() {
           )}
         </div>
 
-        {/* Info */}
         <div>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex gap-2 flex-wrap">
@@ -98,12 +104,11 @@ export default function ProductDetail() {
 
           <StarRating rating={product.rating} reviews={product.reviews} size="md" />
 
-          {/* Price */}
           <div className="flex items-center gap-4 mt-5 mb-6">
-            <span className="text-4xl font-extrabold text-gray-900">${product.price.toFixed(2)}</span>
+            <span className="text-4xl font-extrabold text-gray-900">RS {product.price.toLocaleString()}</span>
             {product.originalPrice > product.price && (
               <>
-                <span className="text-xl text-gray-400 line-through">${product.originalPrice.toFixed(2)}</span>
+                <span className="text-xl text-gray-400 line-through">RS {product.originalPrice.toLocaleString()}</span>
                 <span className="bg-red-100 text-red-700 text-sm font-bold px-2.5 py-1 rounded-lg">-{discount}% OFF</span>
               </>
             )}
@@ -111,7 +116,6 @@ export default function ProductDetail() {
 
           <p className="text-gray-600 leading-relaxed mb-6">{product.description}</p>
 
-          {/* Quantity */}
           <div className="flex items-center gap-4 mb-6">
             <span className="text-sm font-medium text-gray-700">Quantity:</span>
             <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
@@ -131,7 +135,6 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <Button
               size="lg"
@@ -162,7 +165,6 @@ export default function ProductDetail() {
             </Button>
           </div>
 
-          {/* Guarantees */}
           <div className="grid grid-cols-3 gap-3 p-4 bg-gray-50 rounded-2xl">
             {[
               { icon: '🚚', text: 'Free Delivery' },
@@ -178,7 +180,6 @@ export default function ProductDetail() {
         </div>
       </div>
 
-      {/* Related products */}
       {related.length > 0 && (
         <section className="mt-16">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Related Products</h2>

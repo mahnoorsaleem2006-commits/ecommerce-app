@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { products, categories } from '../data/products';
+import products from '../data/products.json';
 import ProductCard from '../components/ui/ProductCard';
+
+const categories = ['All', ...new Set(products.map(p => p.category))];
 
 const sortOptions = [
   { value: 'default', label: 'Default' },
@@ -15,7 +17,7 @@ export default function ProductListing() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sortBy, setSortBy] = useState('default');
-  const [priceRange, setPriceRange] = useState([0, 1200]);
+  const [priceRange, setPriceRange] = useState([0, 50000]);
 
   const selectedCategory = searchParams.get('category') || 'All';
   const searchQuery = searchParams.get('search') || '';
@@ -38,7 +40,7 @@ export default function ProductListing() {
     switch (sortBy) {
       case 'price-low': return list.sort((a, b) => a.price - b.price);
       case 'price-high': return list.sort((a, b) => b.price - a.price);
-      case 'rating': return list.sort((a, b) => b.rating - a.rating);
+      case 'rating': return list.sort((a, b) => (b.rating || 0) - (a.rating || 0));
       case 'name': return list.sort((a, b) => a.name.localeCompare(b.name));
       default: return list;
     }
@@ -74,14 +76,14 @@ export default function ProductListing() {
             <input
               type="range"
               min="0"
-              max="1200"
+              max="50000"
               value={priceRange[1]}
               onChange={e => setPriceRange([0, Number(e.target.value)])}
               className="w-full accent-primary-600"
             />
             <div className="flex justify-between text-sm text-gray-600">
-              <span>$0</span>
-              <span className="font-medium text-primary-600">Up to ${priceRange[1]}</span>
+              <span>RS 0</span>
+              <span className="font-medium text-primary-600">Up to RS {priceRange[1].toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -133,7 +135,6 @@ export default function ProductListing() {
           <p className="text-sm text-gray-500 mt-0.5">{filtered.length} products found</p>
         </div>
         <div className="flex items-center gap-3">
-          {/* Mobile filter toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -185,7 +186,7 @@ export default function ProductListing() {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
               <p className="text-gray-500 mb-6">Try adjusting your filters or search query</p>
               <button
-                onClick={() => { setCategory('All'); setPriceRange([0, 1200]); }}
+                onClick={() => { setCategory('All'); setPriceRange([0, 50000]); }}
                 className="text-primary-600 font-medium hover:underline"
               >
                 Clear all filters
