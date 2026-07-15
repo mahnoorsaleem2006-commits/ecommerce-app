@@ -41,18 +41,19 @@ export default function ProductDetail() {
   const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
 
   const handleAddToCart = () => {
-    dispatch({ type: 'ADD_ITEM', product, quantity });
+    dispatch({ type: 'ADD_ITEM', payload: { ...product, quantity } });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
 
   const handleBuyNow = () => {
-    dispatch({ type: 'ADD_ITEM', product, quantity });
+    dispatch({ type: 'ADD_ITEM', payload: { ...product, quantity } });
     navigate('/cart');
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
         <Link to="/" className="hover:text-primary-600">Home</Link>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -64,6 +65,7 @@ export default function ProductDetail() {
       </nav>
 
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+        {/* Images */}
         <div className="space-y-3">
           <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
             <img
@@ -87,6 +89,7 @@ export default function ProductDetail() {
           )}
         </div>
 
+        {/* Product Info */}
         <div>
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex gap-2 flex-wrap">
@@ -116,6 +119,7 @@ export default function ProductDetail() {
 
           <p className="text-gray-600 leading-relaxed mb-6">{product.description}</p>
 
+          {/* Quantity */}
           <div className="flex items-center gap-4 mb-6">
             <span className="text-sm font-medium text-gray-700">Quantity:</span>
             <div className="flex items-center border border-gray-200 rounded-xl overflow-hidden">
@@ -135,6 +139,7 @@ export default function ProductDetail() {
             </div>
           </div>
 
+          {/* Add to Cart Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <Button
               size="lg"
@@ -165,6 +170,7 @@ export default function ProductDetail() {
             </Button>
           </div>
 
+          {/* Guarantees */}
           <div className="grid grid-cols-3 gap-3 p-4 bg-gray-50 rounded-2xl">
             {[
               { icon: '🚚', text: 'Free Delivery' },
@@ -180,6 +186,7 @@ export default function ProductDetail() {
         </div>
       </div>
 
+      {/* Related Products */}
       {related.length > 0 && (
         <section className="mt-16">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Related Products</h2>

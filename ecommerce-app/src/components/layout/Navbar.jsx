@@ -3,7 +3,8 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../../hooks/useCart';
 
 export default function Navbar() {
-  const { totalItems } = useCart();
+  const { state } = useCart();
+  const { totalItems } = state;
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Navbar() {
             <span className="text-xl font-bold text-gray-900">Shop<span className="text-primary-600">Nest</span></span>
           </Link>
 
-          {/* Search bar — desktop */}
+          {/* Search bar - Desktop */}
           <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md">
             <div className="relative w-full">
               <input
@@ -55,7 +56,7 @@ export default function Navbar() {
             </div>
           </form>
 
-          {/* Nav links — desktop */}
+          {/* Nav links - Desktop */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
               <NavLink
@@ -71,7 +72,7 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Cart icon */}
+          {/* Cart Icon with Badge */}
           <div className="flex items-center gap-2">
             <Link to="/cart" className="relative p-2 text-gray-700 hover:text-primary-600 hover:bg-gray-100 rounded-xl transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +85,7 @@ export default function Navbar() {
               )}
             </Link>
 
-            {/* Hamburger — mobile */}
+            {/* Hamburger - Mobile */}
             <button
               className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -103,7 +104,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden pb-4 pt-2 border-t border-gray-100 space-y-2">
             <form onSubmit={handleSearch} className="relative">

@@ -7,9 +7,9 @@ export default function ProductCard({ product }) {
   const { dispatch } = useCart();
   const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
 
-  const addToCart = (e) => {
+  const handleAddToCart = (e) => {
     e.preventDefault();
-    dispatch({ type: 'ADD_ITEM', product });
+    dispatch({ type: 'ADD_ITEM', payload: product });
   };
 
   const handleImageError = (e) => {
@@ -65,7 +65,7 @@ export default function ProductCard({ product }) {
               )}
             </div>
             <button
-              onClick={addToCart}
+              onClick={handleAddToCart}
               disabled={!product.inStock}
               className="bg-primary-600 hover:bg-primary-700 disabled:bg-gray-300 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors duration-200 flex items-center gap-1"
             >
